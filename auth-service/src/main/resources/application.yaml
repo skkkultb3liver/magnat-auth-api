@@ -1,0 +1,27 @@
+spring:
+    application:
+        name: auth-service
+
+    security:
+        oauth2:
+            resourceserver:
+                jwt:
+                    issuer-uri: ${app.config.keycloak.server-url}/realms/${app.config.keycloak.realm}
+
+server:
+    port: 8025
+
+eureka:
+    client:
+        service-url:
+            defaultZone: http://${EUREKA_SERVER:localhost:8761}/eureka/
+
+app:
+    config:
+        keycloak:
+            server-url: http://${KEYCLOAK_SERVER:localhost:8080}
+            realm: magnat-api-realm
+            client-id: ${KC_CLIENT_ID}
+            client-secret: ${KC_CLIENT_SECRET}
+            logout-endpoint: ${app.config.keycloak.server-url}/realms/${app.config.keycloak.realm}/protocol/openid-connect/logout
+            token-endpoint: ${app.config.keycloak.server-url}/realms/${app.config.keycloak.realm}/protocol/openid-connect/token

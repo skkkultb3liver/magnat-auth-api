@@ -1,0 +1,109 @@
+# === Java ===
+*.class
+*.log
+*.jar
+*.war
+*.ear
+
+# === Build directories ===
+/target/
+/build/
+
+# === Maven ===
+.mvn/
+!/.mvn/wrapper/maven-wrapper.jar
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+
+# === Gradle ===
+.gradle/
+**/build/
+!gradle/wrapper/gradle-wrapper.jar
+gradle-app.setting
+
+# === IDEs ===
+.idea/
+*.iml
+*.ipr
+*.iws
+*.sublime*
+.vscode/
+*.sw?
+
+.keycloak/
+
+# === OS files ===
+.DS_Store
+Thumbs.db
+
+# === Logs ===
+*.log
+logs/
+**/logs/
+
+# === Environment ===
+.env
+*.env
+
+# === Docker ===
+**/Dockerfile
+**/docker-compose*.yml
+**/docker-compose*.yaml
+**/docker/
+*.pid
+
+# === Git ===
+*.orig
+
+# === Test Reports ===
+**/test-output/
+**/surefire-reports/
+
+# === Node (for frontend microservices, if any) ===
+**/node_modules/
+**/dist/
+**/build/
+
+# === Spring Boot ===
+**/.spring-boot-devtools.properties
+
+# === IntelliJ Run Configs ===
+.idea/runConfigurations/
+
+# === Coverage ===
+**/jacoco.exec
+**/coverage/
+
+# === Temp files ===
+*.tmp
+*.bak
+*.swp
+
+# === Database ===
+*.h2.db
+*.mv.db
+*.sqlite
+
+# === Kubernetes / Helm (optional) ===
+**/charts/
+*.tgz
+.release
+
+# === Custom for microservices ===
+# Ignore generated files or configs per-service
+**/out/
+**/*.local.yml
+**/application-local.yml
+**/application-dev.yml
+**/.env.*
+
+# === TLS / Secrets ===
+*.pem
+*.key
+*.crt
+*.jks
+secrets.yaml

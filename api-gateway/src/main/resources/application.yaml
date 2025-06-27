@@ -1,0 +1,49 @@
+spring:
+    application:
+        name: api-gateway
+
+
+    security:
+        oauth2:
+            resourceserver:
+                jwt:
+                    issuer-uri: ${app.config.keycloak.server-url}/realms/${app.config.keycloak.realm}
+                    jwk-set-uri: ${app.config.keycloak.server-url}/realms/${app.config.keycloak.realm}/protocol/openid-connect/certs
+    cloud:
+        gateway:
+            server:
+                webflux:
+                    discovery:
+                        locator:
+                            enabled: true
+                    routes:
+                        -   id: auth-service
+                            uri: lb://AUTH-SERVICE
+                            predicates:
+                                - Path=/api/v1/auth/**
+
+                        -   id: gateway-auth
+                            uri: lb://AUTH-SERVICE
+                            predicates:
+                                - Path=/api/v1/gateway/auth/**
+
+eureka:
+    client:
+        service-url:
+            defaultZone: http://${EUREKA_SERVER:localhost:8761}/eureka/
+
+server:
+    port: 8222
+
+app:
+    config:
+        keycloak:
+            server-url: http://${KEYCLOAK_SERVER:localhost:8080}
+            realm: magnat-api-realm
+            client-id: ${KC_CLIENT_ID}
+            client-secret: ${KC_CLIENT_SECRET}
+            logout-endpoint: ${app.config.keycloak.server-url}/realms/${app.config.keycloak.realm}/protocol/openid-connect/logout
+            token-endpoint: ${app.config.keycloak.server-url}/realms/${app.config.keycloak.realm}/protocol/openid-connect/token
+            revoke-endpoint: ${app.config.keycloak.server-url}/realms/${app.config.keycloak.realm}/protocol/openid-connect/revoke
+
+
