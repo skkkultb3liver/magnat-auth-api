@@ -7,6 +7,36 @@ spring:
             resourceserver:
                 jwt:
                     issuer-uri: ${app.config.keycloak.server-url}/realms/${app.config.keycloak.realm}
+                    jwk-set-uri: ${app.config.keycloak.server-url}/realms/${app.config.keycloak.realm}/protocol/openid-connect/certs
+
+    mail:
+        host: ${MAIL_SERVER:localhost}
+        port: 1025
+        username: magnat
+        password: pass
+        properties:
+            mail:
+                smtp:
+                    trust: "*"
+                auth: true
+                starttls:
+                    enabled: true
+                connectiontimeout: 5000
+                timeout: 3000
+                writetimeout: 5000
+
+    data:
+        redis:
+            host: ${REDIS_HOST:localhost}
+            port: 6379
+            database: 0
+            timeout: 5000
+            lettuce:
+                pool:
+                    max-active: 8
+                    max-idle: 4
+                    min-idle: 1
+
 
 server:
     port: 8025

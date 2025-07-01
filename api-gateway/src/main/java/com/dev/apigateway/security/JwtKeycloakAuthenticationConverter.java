@@ -13,10 +13,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-public class JwtAuthenticationConverter implements Converter<Jwt, Mono<AbstractAuthenticationToken>> {
+public class JwtKeycloakAuthenticationConverter implements Converter<Jwt, Mono<AbstractAuthenticationToken>> {
 
     @Override
     public Mono<AbstractAuthenticationToken> convert(Jwt jwt) {
+        System.out.println("JwtAuthenticationConverter called! Jwt claims: " + jwt.getClaims());
         Collection<GrantedAuthority> authorities = extractAuthorities(jwt);
         return Mono.just(new JwtAuthenticationToken(jwt, authorities));
     }

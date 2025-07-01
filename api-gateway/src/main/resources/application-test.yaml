@@ -1,0 +1,7 @@
+app:
+    config:
+        keycloak:
+            client-id: default-client-id
+            client-secret: default-client-secret
+            logout-endpoint: default-ep
+            token-endpoint: default-ep

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder;
@@ -15,16 +16,17 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebFluxSecurity
+@EnableReactiveMethodSecurity
 public class SecurityConfig {
 
     @Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}")
     private String jwkSetUri;
 
-    private final JwtAuthenticationConverter jwtAuthenticationConverter;
+    private final JwtKeycloakAuthenticationConverter jwtKeycloakAuthenticationConverter;
 
     @Autowired
-    public SecurityConfig(JwtAuthenticationConverter jwtAuthenticationConverter) {
-        this.jwtAuthenticationConverter = jwtAuthenticationConverter;
+    public SecurityConfig(JwtKeycloakAuthenticationConverter jwtKeycloakAuthenticationConverter) {
+        this.jwtKeycloakAuthenticationConverter = jwtKeycloakAuthenticationConverter;
     }
 
     @Bean
@@ -32,8 +34,8 @@ public class SecurityConfig {
         return http
                 .authorizeExchange(auth -> auth
                         .pathMatchers("/api/v1/gateway/auth/**").permitAll()
-                        .pathMatchers("api/v1/admin/**").hasRole("admin")
-                        .anyExchange().authenticated()
+                        .pathMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                        .anyExchange().permitAll()
                 )
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
@@ -41,7 +43,7 @@ public class SecurityConfig {
                         oauth -> oauth
                                 .jwt(jwt -> jwt
                                     .jwtDecoder(jwtDecoder())
-                                    .jwtAuthenticationConverter(jwtAuthenticationConverter)
+                                    .jwtAuthenticationConverter(jwtKeycloakAuthenticationConverter)
                                 )
                 )
                 .build();
